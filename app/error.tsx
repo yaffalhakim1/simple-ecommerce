@@ -18,7 +18,7 @@ export default function Error({
   const router = useRouter();
 
   return (
-    <div>
+    <div className="text-center">
       <h2>Something went wrong!</h2>
       <button
         onClick={

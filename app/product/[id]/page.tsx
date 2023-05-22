@@ -18,10 +18,10 @@ async function ProductDetail({ params: { id } }: Props) {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     const product: Product = await res.json();
     return (
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 px-4 mt-48 pb-10">
-        <div className="flex gap-x-8 h-96">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 px-4 min-h-screen pb-10">
+        <div className="md:flex gap-x-8 h-96">
           {product?.image && (
-            <div className="relative w-72 h-full hidden md:inline">
+            <div className="relative w-72 h-full mx-auto  md:inline">
               <ProductImage product={product} fill />
             </div>
           )}
@@ -60,17 +60,19 @@ async function ProductDetail({ params: { id } }: Props) {
                 </p>
               </div>
 
-              <p className="line-clamp-5 text-sm">{product?.description}</p>
+              <p className="line-clamp-5 text-sm mb-5">
+                {product?.description}
+              </p>
             </div>
 
             <div className="space-y-3 text-sm">
-              <button className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-transparent hover:text-black">
+              <button
+                onClick={() => router.push(`/cart`)}
+                className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white"
+              >
                 Add to bag
               </button>
-              <button
-                onClick={() => router.push(`/product/${product?.id}`)}
-                className="button w-full bg-transparent border-blue-600 hover:bg-blue-600 hover:text-white hover:border-transparent"
-              >
+              <button className="button w-full bg-transparent border-blue-600 hover:bg-blue-600 hover:text-white hover:border-transparent mb-5 md:mb-0">
                 View full details
               </button>
             </div>

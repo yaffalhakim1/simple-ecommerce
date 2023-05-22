@@ -3,6 +3,7 @@ import ProductImage from "./ProductImage";
 
 type Props = {
   product: Product;
+  onClick?: () => void | Promise<void>;
 };
 
 export default function Product({ product }: Props) {
@@ -23,6 +24,12 @@ export default function Product({ product }: Props) {
       <p className="italic text-xs w-64 line-clamp-2 text-gray-600">
         {product.description}
       </p>
+      <button
+        onClick={() => {}}
+        className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
+      >
+        Add to cart
+      </button>
     </Link>
   );
 }

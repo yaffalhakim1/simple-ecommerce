@@ -30,11 +30,9 @@ export const useUserStore = create<UserStore>((set) => ({
           },
         }
       );
-
       if (response.status === 200) {
         const user = response.data;
         set({ user });
-
         // Save user credentials in localStorage
         localStorage.setItem("token", user.token);
         localStorage.setItem("name", user.name);

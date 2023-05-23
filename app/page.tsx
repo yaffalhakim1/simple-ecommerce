@@ -1,8 +1,9 @@
 "use client";
 
 import Product from "@/components/Product";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Loading from "./product/[id]/loading";
+import { useRouter } from "next/navigation";
 import {
   getAll,
   getElectronics,
@@ -10,28 +11,54 @@ import {
   getManClothes,
   getWomanClothes,
 } from "@/lib/products";
+import Sidebar from "@/components/Sidebar";
+import useProductStore from "@/zustand/productsStore";
 
 export default async function Home() {
-  const [all, jewelry, electronics, manCloth, womanCloth] = await Promise.all([
-    getAll(),
-    getJewelry(),
-    getElectronics(),
-    getManClothes(),
-    getWomanClothes(),
-  ]);
+  const products = useProductStore((state: any) => state.products);
+  const fetchAll = useProductStore((state: any) => state.fetchProducts);
+
+  const router = useRouter();
+
+  // const [all, jewelry, electronics, manCloth, womanCloth] = await Promise.all([
+  //   getAll(),
+  //   getJewelry(),
+  //   getElectronics(),
+  //   getManClothes(),
+  //   getWomanClothes(),
+  // ]);
+
+  async function logout() {
+    localStorage.removeItem("token");
+    router.push("/auth/login");
+  }
+
+  useEffect(() => {
+    // Fetch products for all categories initially
+    fetchAll();
+  }, [fetchAll]);
 
   return (
-    <main className="min-h-screen max-w-7xl mx-auto px-8 xl:px-0 mt-24">
-      <section className="flex flex-col space-y-12 pb-44">
-        <h1 className="text-5xl font-bold text-center">The Products</h1>
-        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
-          {/* <Suspense fallback={<Loading />}> */}
-          {electronics.map((product) => (
-            <Product key={product.id} product={product} />
-          ))}
-          {/* </Suspense> */}
-        </div>
-      </section>
-    </main>
+    <>
+      <div className="min-h-screen max-w-5xl mx-auto px-8 xl:px-0 mt-24">
+        <Sidebar />
+        {/* <button
+          onClick={() => {
+            logout();
+          }}
+          className="button bg-red-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
+        >
+          logout
+        </button> */}
+        <section className="flex flex-col space-y-12 pb-44">
+          <h1 className="text-5xl font-bold text-center">The Products</h1>
+          <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
+            {products.map((product: any) => (
+              <Product key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      </div>
+    </>
   );
 }

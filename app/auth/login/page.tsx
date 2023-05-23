@@ -152,8 +152,8 @@ function Login() {
                 y2="677.15616"
                 fill="none"
                 stroke="#000"
-                stroke-miterlimit="10"
-                stroke-width="2"
+                strokeMiterlimit="10"
+                strokeWidth="2"
                 opacity="0.1"
               />
               <line
@@ -163,8 +163,8 @@ function Login() {
                 y2="679.15616"
                 fill="none"
                 stroke="#000"
-                stroke-miterlimit="10"
-                stroke-width="2"
+                strokeMiterlimit="10"
+                strokeWidth="2"
                 opacity="0.1"
               />
               <line
@@ -174,8 +174,8 @@ function Login() {
                 y2="683"
                 fill="none"
                 stroke="#000"
-                stroke-miterlimit="10"
-                stroke-width="2"
+                strokeMiterlimit="10"
+                strokeWidth="2"
                 opacity="0.1"
               />
               <line
@@ -185,8 +185,8 @@ function Login() {
                 y2="687.15616"
                 fill="none"
                 stroke="#000"
-                stroke-miterlimit="10"
-                stroke-width="2"
+                strokeMiterlimit="10"
+                strokeWidth="2"
                 opacity="0.1"
               />
               <line
@@ -196,8 +196,8 @@ function Login() {
                 y2="688"
                 fill="none"
                 stroke="#000"
-                stroke-miterlimit="10"
-                stroke-width="2"
+                strokeMiterlimit="10"
+                strokeWidth="2"
                 opacity="0.1"
               />
               <ellipse

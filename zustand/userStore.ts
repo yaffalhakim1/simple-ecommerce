@@ -37,7 +37,7 @@ export const useUserStore = create<UserStore>((set) => ({
         localStorage.setItem("token", user.token);
         localStorage.setItem("name", user.name);
         // console.log(localStorage.getItem("token"));
-        console.table("Sign-in successful:", user);
+        console.table({ user });
       } else {
         // Handle sign-in error, e.g., show an error message
         console.error({ response });
@@ -46,5 +46,9 @@ export const useUserStore = create<UserStore>((set) => ({
       // Handle sign-in error, e.g., show an error message
       console.error("Sign-in failed:", error);
     }
+  },
+
+  checkToken: async () => {
+    localStorage.getItem("token");
   },
 }));

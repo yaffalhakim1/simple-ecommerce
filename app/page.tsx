@@ -4,30 +4,14 @@ import Product from "@/components/Product";
 import { Suspense, useEffect } from "react";
 import Loading from "./product/[id]/loading";
 import { useRouter } from "next/navigation";
-import {
-  getAll,
-  getElectronics,
-  getJewelry,
-  getManClothes,
-  getWomanClothes,
-} from "@/lib/products";
 import Sidebar from "@/components/Sidebar";
 import useProductStore from "@/zustand/productsStore";
 
 export default async function Home() {
-  const products = useProductStore((state: any) => state.products);
-  const fetchAll = useProductStore((state: any) => state.fetchProducts);
+  const products = useProductStore((state) => state.products);
+  const fetchAll = useProductStore((state) => state.fetchProducts);
 
   const router = useRouter();
-
-  // const [all, jewelry, electronics, manCloth, womanCloth] = await Promise.all([
-  //   getAll(),
-  //   getJewelry(),
-  //   getElectronics(),
-  //   getManClothes(),
-  //   getWomanClothes(),
-  // ]);
-
   async function logout() {
     localStorage.removeItem("token");
     router.push("/auth/login");

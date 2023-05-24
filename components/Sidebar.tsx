@@ -3,9 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import useProductStore from "@/zustand/productsStore";
 import { useWindowSize } from "react-use";
 import { useTransition, animated } from "@react-spring/web";
+import Overlay from "./Overlay";
 
 function Sidebar() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const products = useProductStore((state) => state.products);
+
   const categories = [
     "electronics",
     "jewelery",
@@ -14,9 +17,11 @@ function Sidebar() {
   ];
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const bottomSheetRef = useRef<HTMLInputElement | null>(null);
+  // const overlayRef = React.forwardRef<HTMLDivElement>;
+
+  const { width } = useWindowSize();
+
   const selectedCategory = useProductStore((state) => state.selectedCategory);
   const setSelectedCategory = useProductStore(
     (state) => state.setSelectedCategory
@@ -28,9 +33,6 @@ function Sidebar() {
     setSelectedCategory(category);
     fetchProductsByCategory(category);
   };
-
-  const bottomSheetRef = useRef<HTMLDivElement>(null);
-  const { width } = useWindowSize();
 
   useEffect(() => {
     // Add event listeners to detect clicks and touches outside the sidebar
@@ -44,6 +46,9 @@ function Sidebar() {
     };
   });
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const handleClickOutside = (event: MouseEvent | TouchEvent) => {
     // Close the sidebar if it's open and the click/touch is outside of it
     if (
@@ -78,39 +83,53 @@ function Sidebar() {
                 Categories
               </button>
 
+              {/* //causing error use ref in page.tsx */}
+              {isBottomSheetOpen && (
+                <Overlay
+                  isOpen={isBottomSheetOpen}
+                  toggleBottomSheet={toggleBottomSheet}
+                  ref={bottomSheetRef!}
+                />
+              )}
+
               {transitions.map(
                 (item: any) =>
                   item && (
-                    <animated.div
-                      key={item}
-                      ref={bottomSheetRef}
-                      className={`fixed bottom-0 left-0 z-30 w-full h-64 bg-white p-4 transition-transform ${
-                        isBottomSheetOpen ? "translate-y-0" : "translate-y-full"
-                      }`}
-                      // style={styles}
-                    >
-                      <div className="px-4 py-3">
-                        <h2 className="mb-2 text-lg font-semibold">
-                          Categories
-                        </h2>
-                        <ul className="space-y-2">
-                          {categories.map((category) => (
-                            <li
-                              key={category}
-                              onClick={() => handleCategoryClick(category)}
-                              onTouchStart={() => handleCategoryClick(category)}
-                              className={`cursor-pointer ${
-                                selectedCategory === category
-                                  ? "text-blue-500"
-                                  : ""
-                              }`}
-                            >
-                              {category}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </animated.div>
+                    <>
+                      <animated.div
+                        key={item}
+                        ref={bottomSheetRef!}
+                        className={`fixed bottom-0 left-0 z-30 w-full h-64 bg-white p-4 transition-transform rounded rounded-tl-lg rounded-tr-lg ${
+                          isBottomSheetOpen
+                            ? "translate-y-0"
+                            : "translate-y-full"
+                        }`}
+                      >
+                        <div className="px-4 py-3">
+                          <h2 className="mb-2 text-lg font-semibold">
+                            Categories
+                          </h2>
+                          <ul className="space-y-2">
+                            {categories.map((category) => (
+                              <li
+                                key={category}
+                                onClick={() => handleCategoryClick(category)}
+                                onTouchStart={() =>
+                                  handleCategoryClick(category)
+                                }
+                                className={`cursor-pointer ${
+                                  selectedCategory === category
+                                    ? "text-blue-500"
+                                    : ""
+                                }`}
+                              >
+                                {category}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </animated.div>
+                    </>
                   )
               )}
             </>
@@ -143,31 +162,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-{
-  /* {isBottomSheetOpen && (
-                <div
-                  ref={bottomSheetRef}
-                  className={`fixed bottom-0 left-0 z-30 w-full h-64 bg-white p-4 transition-transform ${
-                    isBottomSheetOpen ? "translate-y-0" : "-translate-y-full"
-                  }`}
-                >
-                  <div className="px-4 py-3">
-                    <h2 className="mb-2 text-lg font-semibold">Categories</h2>
-                    <ul className="space-y-2">
-                      {categories.map((category) => (
-                        <li
-                          key={category}
-                          onClick={() => handleCategoryClick(category)}
-                          onTouchStart={() => handleCategoryClick(category)}
-                          className={`cursor-pointer ${
-                            selectedCategory === category ? "text-blue-500" : ""
-                          }`}
-                        >
-                          {category}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )} */
-}

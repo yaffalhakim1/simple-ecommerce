@@ -8,7 +8,7 @@ const Overlay = ({
 }: {
   isOpen: boolean;
   toggleBottomSheet: () => void | Promise<void>;
-  ref: any;
+  ref?: any;
 }) => {
   const transitions = useTransition(isOpen, () => ({
     from: { opacity: 0 },
@@ -23,7 +23,7 @@ const Overlay = ({
           item && (
             <animated.div
               key={item}
-              className="fixed top-0 left-0 z-20 w-full h-full bg-black bg-opacity-50"
+              className="fixed top-0 left-0 z-20 w-full h-full backdrop-filter backdrop-blur-sm"
               onClick={toggleBottomSheet}
             ></animated.div>
           )

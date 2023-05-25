@@ -1,10 +1,19 @@
+"use client";
 import { create } from "zustand";
 
 type ProductStore = {
-  products: any[];
+  products: [];
   selectedCategory: string | null;
+  selectedSort: string | null;
+  setSelectedSort: (sort: string) => void;
   setSelectedCategory: (category: string) => void;
   fetchProductsByCategory: (category: string) => Promise<void>;
+  fetchProductsByCategoryandSort: (
+    category: string,
+    sort: string | null
+  ) => Promise<void>;
+  fetchProductsBySort: (sort: string) => Promise<void>;
+
   fetchProducts: () => Promise<void>;
   fetchJewelry: () => Promise<void>;
   fetchElectronics: () => Promise<void>;
@@ -13,6 +22,10 @@ type ProductStore = {
 };
 
 const useProductStore = create<ProductStore>((set) => ({
+  selectedSort: null,
+  setSelectedSort: (sort: string) => {
+    set({ selectedSort: sort });
+  },
   setSelectedCategory: (category: string) => {
     set({ selectedCategory: category });
   },
@@ -29,6 +42,37 @@ const useProductStore = create<ProductStore>((set) => ({
       console.error(`Failed to fetch ${category} products:`, error);
     }
   },
+  fetchProductsByCategoryandSort: async (
+    category: string,
+    sort: string | null
+  ) => {
+    try {
+      let url = `https://fakestoreapi.com/products/category/${category}`;
+
+      if (sort) {
+        url += `?sort=${sort}`;
+      }
+
+      const response = await fetch(url);
+      const products = await response.json();
+      set({ products });
+    } catch (error) {
+      console.error(`Failed to fetch ${category} products:`, error);
+    }
+  },
+
+  fetchProductsBySort: async (sort: string) => {
+    try {
+      const response = await fetch(
+        `https://fakestoreapi.com/products?sort=${sort}`
+      );
+      const products = await response.json();
+      set({ products });
+    } catch (error) {
+      console.error(`Failed to fetch ${sort} products:`, error);
+    }
+  },
+
   fetchProducts: async () => {
     try {
       const all = await fetch("https://fakestoreapi.com/products");

@@ -70,22 +70,25 @@ async function ProductDetail({ params: { id } }: Props) {
                 {product?.description}
               </p>
             </div>
-
-            <div className="text-sm">
+            <CartSidebar />
+            {/* <div className="text-sm">
               <button
                 onClick={handleAddToCart}
                 className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
               >
                 Add to cart
               </button>
-              {isCartOpen && <CartSidebar />}
+
               {isCartOpen && (
-                <div
-                  className="fixed inset-0 bg-black opacity-50"
-                  onClick={() => setIsCartOpen(false)}
-                ></div>
+                <>
+                  <CartSidebar />
+                  <div
+                    className="fixed inset-0 bg-black opacity-50"
+                    onClick={() => setIsCartOpen(false)}
+                  ></div>
+                </>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

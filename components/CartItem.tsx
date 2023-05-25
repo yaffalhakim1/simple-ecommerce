@@ -6,7 +6,7 @@ import { XIcon } from "./Icons";
 
 function CartItem() {
   return (
-    <div className="justify-between mb-2 rounded-lg bg-white p-6  sm:flex sm:justify-start">
+    <div className="justify-between rounded-lg bg-white p-6  sm:flex sm:justify-start">
       <Image
         src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
         alt="product-image"

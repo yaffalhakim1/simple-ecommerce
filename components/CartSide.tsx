@@ -1,94 +1,88 @@
-import { useState, useEffect, useRef } from "react";
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import CartItem from "./CartItem";
-import Overlay from "./Overlay";
-import { useSpring, animated } from "@react-spring/web";
-import { useWindowSize } from "react-use";
 import { XIcon } from "./Icons";
 
 const CartSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement>(null);
-  const { width } = useWindowSize();
 
-  const isMobile = width < 768;
+  function closeSidebar() {
+    setIsOpen(false);
+  }
+  function open() {
+    setIsOpen(true);
+  }
 
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-    // closeProps;
-    console.log(isOpen);
-  };
-
-  const props = useSpring({
-    from: { opacity: 0, transform: "translateX(100%)" },
-    to: { opacity: 1, transform: "translateX(0)" },
-    config: { duration: 200 },
-  });
-
-  const closeProps = useSpring({
-    from: { opacity: 1, transform: "translateX(0)" },
-    to: { opacity: 0, transform: "translateX(100%)" },
-    config: { duration: 200 },
-  });
-
-  const sidebarAnimation = isOpen ? props : closeProps;
   return (
     <>
-      {isMobile && (
-        <animated.aside
-          ref={sidebarRef}
-          // className="fixed top-0 right-0 z-40 w-full h-screen bg-white "
-          className={`fixed top-0 right-0 z-40 w-full  bg-white  transition-transform ${
-            isOpen ? { sidebarAnimation } : {}
-          } sm:translate-x-0 `}
-          style={props}
-        >
-          {/* Sidebar Content */}
-          <div className="px-4 overflow-y-auto h-screen  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-            <div className="flex px-4 ">
-              <h2 className="text-lg font-semibold mt-3">Your Cart</h2>
-              <button className="ml-auto mt-3" onClick={toggleSidebar}>
-                <XIcon />
-              </button>
-            </div>
+      <button
+        className="button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
+        onClick={open}
+      >
+        Open Cart
+      </button>
 
-            <CartItem />
-            <CartItem />
-            <CartItem />
-          </div>
-        </animated.aside>
-      )}
-      {!isMobile && (
-        <animated.aside
-          ref={sidebarRef}
-          style={props}
-          className={`fixed top-0 right-0 z-40 w-86 h-screen  ml-8 bg-white`}
-        >
-          {/* Sidebar Content */}
-          <div className="px-4">
-            <h2 className="text-lg font-semibold mt-3">Your Cart</h2>
-            <CartItem />
-            <CartItem />
-            <CartItem />
-          </div>
-        </animated.aside>
-      )}
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" onClose={closeSidebar}>
+          <Transition.Child
+            as={Fragment}
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+          </Transition.Child>
+
+          <Transition.Child
+            as={Fragment}
+            enter="transition ease-in-out duration-300 transform"
+            enterFrom="translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition ease-in-out duration-300 transform"
+            leaveFrom="translate-x-0"
+            leaveTo="translate-x-full"
+          >
+            <div className="fixed inset-0 ">
+              <Dialog.Panel className="fixed top-0 right-0 z-40 w-full h-full max-w-md bg-white">
+                {/* Sidebar Content */}
+                <div className="flex px-4 justify-between">
+                  <p className="text-lg font-semibold mt-3">Your Cart</p>
+                  <button
+                    className="mt-3"
+                    onClick={closeSidebar}
+                    aria-label="Close"
+                  >
+                    <XIcon />
+                  </button>
+                </div>
+                <div className="p-4 h-full overflow-y-scroll">
+                  {/* Add your cart items here */}
+                  <div className="space-y-2">
+                    <CartItem />
+                    <CartItem />
+                    <CartItem />
+                    <CartItem />
+                    <CartItem />
+                    <CartItem />
+                  </div>
+                </div>
+                <div className="px-4 py-2 bg-gray-200">
+                  {/* Add total price detail here */}
+                  <p className="text-lg font-semibold">Total: $100.00</p>
+                  <p className="text-sm text-gray-500">Shipping: $5.00</p>
+                </div>
+              </Dialog.Panel>
+            </div>
+          </Transition.Child>
+        </Dialog>
+      </Transition>
+      {/* Overlay to cover the whole screen */}
+      {/* {isOpen && <div className="fixed inset-0 bg-black opacity-50"></div>} */}
     </>
   );
 };
 
 export default CartSidebar;
-// transition-transform ${
-//   isOpen ? "translate-x-0" : "translate-x-full"
-// } sm:translate-x-0

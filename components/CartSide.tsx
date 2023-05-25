@@ -49,20 +49,21 @@ const CartSidebar = () => {
         <animated.aside
           ref={sidebarRef}
           // className="fixed top-0 right-0 z-40 w-full h-screen bg-white "
-          className={`fixed top-0 right-0 z-40 w-full h-screen bg-white  transition-transform ${
+          className={`fixed top-0 right-0 z-40 w-full  bg-white  transition-transform ${
             isOpen ? { sidebarAnimation } : {}
           } sm:translate-x-0 `}
           style={props}
         >
           {/* Sidebar Content */}
-          <div className="px-4">
-            <div className="flex px-4">
+          <div className="px-4 overflow-y-auto h-screen  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            <div className="flex px-4 ">
               <h2 className="text-lg font-semibold mt-3">Your Cart</h2>
               <button className="ml-auto mt-3" onClick={toggleSidebar}>
                 <XIcon />
               </button>
             </div>
 
+            <CartItem />
             <CartItem />
             <CartItem />
           </div>
@@ -77,6 +78,7 @@ const CartSidebar = () => {
           {/* Sidebar Content */}
           <div className="px-4">
             <h2 className="text-lg font-semibold mt-3">Your Cart</h2>
+            <CartItem />
             <CartItem />
             <CartItem />
           </div>

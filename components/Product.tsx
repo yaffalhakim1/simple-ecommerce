@@ -13,6 +13,7 @@ export default function Product({ product }: Props) {
     <div>
       <>
         <Link
+          prefetch={false}
           href={`/product/${product.id}`}
           className="h-80 flex flex-col p-5 rounded border group hover:scale-105 transition-transform ease-out duration-200"
         >

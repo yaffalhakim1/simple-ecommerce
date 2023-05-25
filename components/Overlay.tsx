@@ -6,8 +6,8 @@ const Overlay = ({
   toggleBottomSheet,
   ref,
 }: {
-  isOpen: boolean;
-  toggleBottomSheet: () => void | Promise<void>;
+  isOpen?: boolean;
+  toggleBottomSheet?: () => void | Promise<void>;
   ref?: any;
 }) => {
   const transitions = useTransition(isOpen, () => ({

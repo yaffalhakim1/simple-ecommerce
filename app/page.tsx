@@ -2,7 +2,6 @@
 
 import Product from "@/components/Product";
 import { Suspense, useEffect } from "react";
-import Loading from "./product/[id]/loading";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import useProductStore from "@/zustand/productsStore";
@@ -20,14 +19,12 @@ export default async function Home() {
   useEffect(() => {
     // Fetch products for all categories initially
     fetchAll();
-  }, []);
+  }, [fetchAll]);
 
   return (
     <>
       <div className="min-h-screen max-w-5xl mx-auto px-8 lg:px-0 mt-24">
-        <div className="flex">
-          <Sidebar />
-        </div>
+        <Sidebar />
 
         {/* <button
           onClick={() => {

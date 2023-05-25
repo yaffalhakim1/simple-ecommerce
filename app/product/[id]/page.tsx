@@ -4,6 +4,9 @@ import ProductImage from "@/components/ProductImage";
 import { notFound, useRouter } from "next/navigation";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
+import CartSidebar from "@/components/CartSide";
+import { Suspense, useState } from "react";
+import Loading from "./loading";
 
 type Props = {
   params: {
@@ -13,6 +16,11 @@ type Props = {
 
 async function ProductDetail({ params: { id } }: Props) {
   const router = useRouter();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleAddToCart = () => {
+    setIsCartOpen(true);
+  };
 
   try {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
@@ -22,15 +30,13 @@ async function ProductDetail({ params: { id } }: Props) {
         <div className="md:flex gap-x-8 h-96">
           {product?.image && (
             <div className="relative w-72 h-full mx-auto  md:inline">
-              <ProductImage product={product} fill />
+              <ProductImage product={product} />
             </div>
           )}
-
           <div className="flex-1 flex flex-col">
             <div className="flex-1">
               <h4 className="font-semibold">{product?.title}</h4>
               <p className="font-medium text-sm">${product?.price}</p>
-
               <div className="flex items-center text-sm my-4">
                 <p>{product?.rating.rate}</p>
                 {product?.rating.rate && (
@@ -65,16 +71,20 @@ async function ProductDetail({ params: { id } }: Props) {
               </p>
             </div>
 
-            <div className="space-y-3 text-sm">
+            <div className="text-sm">
               <button
-                onClick={() => router.push(`/cart`)}
-                className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white"
+                onClick={handleAddToCart}
+                className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
               >
-                Add to bag
+                Add to cart
               </button>
-              <button className="button w-full bg-transparent border-blue-600 hover:bg-blue-600 hover:text-white hover:border-transparent mb-5 md:mb-0">
-                View full details
-              </button>
+              {isCartOpen && <CartSidebar />}
+              {isCartOpen && (
+                <div
+                  className="fixed inset-0 bg-black opacity-50"
+                  onClick={() => setIsCartOpen(false)}
+                ></div>
+              )}
             </div>
           </div>
         </div>

@@ -17,7 +17,6 @@ export default function ProductImage({ product, fill }: Props) {
         <Image
           src={product.image}
           alt={product.title}
-          sizes="100vw"
           fill
           className={`object-contain duration-700 ease-in-out group-hover:opacity-75 ${
             loading
@@ -31,7 +30,7 @@ export default function ProductImage({ product, fill }: Props) {
           src={product.image}
           alt={product.title}
           width={400}
-          height={800}
+          height={1000}
           className={`object-contain duration-700 ease-in-out group-hover:opacity-75 ${
             loading
               ? "scale-110 blur-2xl grayscale"

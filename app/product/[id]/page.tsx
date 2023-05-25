@@ -30,7 +30,7 @@ async function ProductDetail({ params: { id } }: Props) {
         <div className="md:flex gap-x-8 h-96">
           {product?.image && (
             <div className="relative w-72 h-full mx-auto  md:inline">
-              <ProductImage product={product} />
+              <ProductImage product={product} fill />
             </div>
           )}
           <div className="flex-1 flex flex-col">

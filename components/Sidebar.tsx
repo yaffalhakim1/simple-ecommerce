@@ -49,7 +49,7 @@ function Sidebar() {
     setIsMounted(true);
   }, []);
 
-  const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+  const handleClickOutside = (event: any) => {
     // Close the sidebar if it's open and the click/touch is outside of it
     if (
       isBottomSheetOpen &&
@@ -99,7 +99,7 @@ function Sidebar() {
                       isBottomSheetOpen ? "translate-y-0" : "translate-y-full"
                     }`}
                   >
-                    <div className="px-4 py-3 h-full overflow-y-auto">
+                    <div className="px-4 py-3 h-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                       <h2 className="mb-2 text-lg font-semibold">Categories</h2>
                       <ul className="space-y-2">
                         {categories.map((category) => (

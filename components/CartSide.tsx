@@ -19,7 +19,7 @@ const CartSidebar = () => {
         className="button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
         onClick={open}
       >
-        Open Cart
+        Add to Cart{" "}
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -48,31 +48,49 @@ const CartSidebar = () => {
             <div className="fixed inset-0 ">
               <Dialog.Panel className="fixed top-0 right-0 z-40 w-full h-full max-w-md bg-white">
                 {/* Sidebar Content */}
-                <div className="flex px-4 justify-between">
-                  <p className="text-lg font-semibold mt-3">Your Cart</p>
-                  <button
-                    className="mt-3"
-                    onClick={closeSidebar}
-                    aria-label="Close"
-                  >
-                    <XIcon />
-                  </button>
-                </div>
-                <div className="p-4 h-full overflow-y-scroll">
-                  {/* Add your cart items here */}
-                  <div className="space-y-2">
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
+                <div className="flex flex-col h-full justify-between">
+                  <div className="flex px-4 justify-between">
+                    <p className="text-lg font-semibold mt-3">Your Cart</p>
+                    <button
+                      className="mt-3"
+                      onClick={closeSidebar}
+                      aria-label="Close"
+                    >
+                      <XIcon />
+                    </button>
                   </div>
-                </div>
-                <div className="px-4 py-2 bg-gray-200">
-                  {/* Add total price detail here */}
-                  <p className="text-lg font-semibold">Total: $100.00</p>
-                  <p className="text-sm text-gray-500">Shipping: $5.00</p>
+                  <div className="flex flex-col  justify-between overflow-hidden">
+                    <div className="px-4 h-screen overflow-y-scroll">
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                      <CartItem />
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-400 pt-1">
+                    <div className="flex flex-col justify-between my-2">
+                      <div className="mb-2 flex items-center justify-between px-2 ">
+                        <p>Subtotal</p>
+                        <p>$5.00</p>
+                      </div>
+                      <div className="mb-2 flex items-center justify-between px-2">
+                        <p>Taxes</p>
+                        <p>$5.00</p>
+                      </div>
+                      <div className="mb-2 flex items-center justify-between px-2 border-b border-gray-400">
+                        <p>Shipping</p>
+                        <p>$5.00</p>
+                      </div>
+                      <div className=" flex items-center justify-between px-2 ">
+                        <p className="font-semibold">Total</p>
+                        <p>$5.00</p>
+                      </div>
+                      <button className="button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-2 mx-1 leading-relaxed">
+                        PROCEED TO PAYMENT
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </Dialog.Panel>
             </div>

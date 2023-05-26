@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import { BASE_URL } from "@/lib/shared";
+import Cookies from "js-cookie";
 
 type User = {
   id: any;
@@ -33,9 +34,9 @@ export const useUserStore = create<UserStore>((set) => ({
       if (response.status === 200) {
         const user = response.data;
         set({ user });
+
         // Save user credentials in localStorage
-        localStorage.setItem("token", user.token);
-        localStorage.setItem("name", user.name);
+        Cookies.set("token", user.token);
         // console.log(localStorage.getItem("token"));
         console.table({ user });
       } else {

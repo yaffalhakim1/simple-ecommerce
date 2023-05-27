@@ -5,6 +5,8 @@ import { CartIcon, XIcon } from "./Icons";
 import useCartStore from "@/zustand/cartStore";
 import { remove } from "js-cookie";
 import Button from "./Button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface CartSidebarProps {
   isOpened?: boolean;
@@ -39,15 +41,14 @@ const CartSidebar = ({
   };
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const computeTotalPrice = useCartStore((state) => state.priceTotal);
+  const router = useRouter();
 
   return (
     <>
       <button
-        className={`button ${
-          buttonVariant === "icon"
-            ? "bg-transparent hover:bg-transparent hover:border-transparent hover:scale-110"
-            : "bg-blue-600"
-        } text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5`}
+        className={` ${
+          buttonVariant === "icon" ? "md:hover:scale-110" : "button bg-blue-600"
+        } text-white  hover:text-white`}
         onClick={() => {
           open();
           if (buttonVariant !== "icon") {
@@ -57,9 +58,9 @@ const CartSidebar = ({
       >
         {buttonVariant === "icon" ? (
           <CartIcon
-            className="text-lg text-blue-600"
-            width="32px"
-            height="32px"
+            className="text-center text-blue-600"
+            width="40px"
+            height="40px"
           />
         ) : (
           "Add to Cart"
@@ -139,9 +140,14 @@ const CartSidebar = ({
                               {computeTotalPrice() + 10}
                             </p>
                           </div>
-                          <button className="button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-2 leading-relaxed mx-4">
+                          {/* <Link href="/coming"> */}
+                          <button
+                            onClick={() => router.push("/coming")}
+                            className="button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-2 leading-relaxed mx-4"
+                          >
                             PROCEED TO PAYMENT
                           </button>
+                          {/* </Link> */}
                         </div>
                       </div>
                     </div>

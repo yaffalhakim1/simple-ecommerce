@@ -7,6 +7,7 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import CartSidebar from "@/components/CartSide";
 import { Suspense, useState } from "react";
 import Loading from "./loading";
+import Header from "@/components/Header";
 
 type Props = {
   params: {
@@ -19,11 +20,11 @@ async function ProductDetail({ params: { id } }: Props) {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     const product: Product = await res.json();
     return (
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 px-4 min-h-screen pb-10">
-        <div className="md:flex gap-x-8 h-96">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 px-4 mt-24">
+        <div className="md:flex gap-x-8 ">
           {product?.image && (
-            <div className="relative w-72 h-full mx-auto  md:inline">
-              <ProductImage product={product} fill />
+            <div className="w-44 mx-auto  md:inline">
+              <ProductImage product={product} />
             </div>
           )}
           <div className="flex-1 flex flex-col">

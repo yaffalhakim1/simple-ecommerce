@@ -4,6 +4,7 @@ import useProductStore from "@/zustand/productsStore";
 import { useWindowSize } from "react-use";
 import { useTransition, animated } from "@react-spring/web";
 import Overlay from "./Overlay";
+import { MenuIcon } from "./Icons";
 
 function Sidebar() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -77,10 +78,10 @@ function Sidebar() {
           {width <= 768 ? (
             <>
               <button
-                className="block sm:hidden mb-5 text-lg font-semibold"
+                // className="block  mb-5 text-lg font-semibold"
                 onClick={toggleBottomSheet}
               >
-                Filters
+                <MenuIcon width="40px" height="40px" />
               </button>
               {isBottomSheetOpen && (
                 <Overlay

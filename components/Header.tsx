@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CartSidebar from "./CartSide";
+import useCartStore from "@/zustand/cartStore";
 
 export default function Header() {
   return (
@@ -12,7 +13,21 @@ export default function Header() {
       </Link>
 
       <div className="flex items-center space-x-2.5 text-sm">
-        <CartSidebar buttonVariant={"icon"} />
+        <CartSidebar
+          buttonVariant={"icon"}
+          product={{
+            id: 0,
+            title: "",
+            price: 0,
+            description: "",
+            category: "",
+            image: "",
+            rating: {
+              rate: 0,
+              count: 0,
+            },
+          }}
+        />
       </div>
     </header>
   );

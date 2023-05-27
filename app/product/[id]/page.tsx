@@ -65,7 +65,6 @@ async function ProductDetail({ params: { id } }: Props) {
             </div>
             <CartSidebar
               buttonVariant={"text"}
-              id={undefined}
               product={{
                 id: product.id,
                 title: product.title,

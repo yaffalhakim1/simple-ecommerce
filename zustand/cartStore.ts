@@ -22,58 +22,65 @@ type CartStore = {
   priceTotal: () => number;
 };
 
-const useCartStore = create<CartStore>((set) => ({
-  cartItems: localStorage.getItem("cartItems")
-    ? JSON.parse(localStorage.getItem("cartItems")!)
-    : [],
+const useCartStore = create<CartStore>((set) => {
+  const initialCartItems =
+    typeof window !== "undefined" && localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems")!)
+      : [];
 
-  addToCart: (product: Product) => {
-    set((state) => {
-      const existingItem = state.cartItems.find(
-        (item) => item.product.id === product.id
-      );
-      if (existingItem) {
-        const updatedItem = {
-          ...existingItem,
-          quantity: existingItem.quantity + 1,
-        };
-        return {
-          cartItems: state.cartItems.map((item) =>
-            item.product.id === product.id ? updatedItem : item
-          ),
-        };
-      } else {
-        const newItem = { product, quantity: 1 };
-        return { cartItems: [...state.cartItems, newItem] };
-      }
-    });
-  },
+  return {
+    cartItems: initialCartItems,
 
-  removeFromCart: (id) =>
-    set((state) => ({
-      cartItems: state.cartItems.filter((item) => item.product.id !== id),
-    })),
+    addToCart: (product: Product) => {
+      set((state) => {
+        const existingItem = state.cartItems.find(
+          (item) => item.product.id === product.id
+        );
+        if (existingItem) {
+          const updatedItem = {
+            ...existingItem,
+            quantity: existingItem.quantity + 1,
+          };
+          return {
+            cartItems: state.cartItems.map((item) =>
+              item.product.id === product.id ? updatedItem : item
+            ),
+          };
+        } else {
+          const newItem = { product, quantity: 1 };
+          return { cartItems: [...state.cartItems, newItem] };
+        }
+      });
+    },
 
-  updateQuantity: (productId: number, quantity: number) => {
-    set((state) => ({
-      cartItems: state.cartItems.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      ),
-    }));
-  },
+    removeFromCart: (id) =>
+      set((state) => ({
+        cartItems: state.cartItems.filter((item) => item.product.id !== id),
+      })),
 
-  priceTotal: () => {
-    let total = 0;
-    useCartStore.getState().cartItems.forEach((item) => {
-      total += item.product.price * item.quantity;
-    });
+    updateQuantity: (productId: number, quantity: number) => {
+      set((state) => ({
+        cartItems: state.cartItems.map((item) =>
+          item.product.id === productId ? { ...item, quantity } : item
+        ),
+      }));
+    },
 
-    return total;
-  },
-}));
+    priceTotal: () => {
+      let total = 0;
+      useCartStore.getState().cartItems.forEach((item) => {
+        total += item.product.price * item.quantity;
+      });
 
-useCartStore.subscribe((state) => {
-  localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      return total;
+    },
+  };
 });
+
+if (typeof window !== "undefined") {
+  useCartStore.subscribe((state) => {
+    localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+  });
+}
 
 export default useCartStore;

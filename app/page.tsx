@@ -5,13 +5,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import useProductStore from "@/zustand/productsStore";
-import { useTokenCheck } from "@/lib/checkLogin";
 
 export default async function Home() {
   const products = useProductStore((state) => state.products);
   const fetchAll = useProductStore((state) => state.fetchProducts);
-
-  const router = useRouter();
 
   useEffect(() => {
     // Fetch products for all categories initially

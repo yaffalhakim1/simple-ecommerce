@@ -10,7 +10,7 @@ interface CartSidebarProps {
   onClose?: () => void;
   openCart?: () => void;
   buttonVariant: "text" | "icon";
-  id: any;
+  id?: any;
   product: Product;
 }
 const CartSidebar = ({

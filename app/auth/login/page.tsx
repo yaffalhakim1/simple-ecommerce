@@ -11,10 +11,6 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.table({
-      username,
-      password,
-    });
 
     await signIn(username, password);
   };

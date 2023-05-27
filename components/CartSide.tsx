@@ -58,7 +58,7 @@ const CartSidebar = ({
       >
         {buttonVariant === "icon" ? (
           <CartIcon
-            className="text-center text-blue-600"
+            className="text-center text-black"
             width="40px"
             height="40px"
           />

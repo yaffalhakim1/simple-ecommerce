@@ -4,7 +4,8 @@ import useProductStore from "@/zustand/productsStore";
 import { useWindowSize } from "react-use";
 import { useTransition, animated } from "@react-spring/web";
 import Overlay from "./Overlay";
-import { MenuIcon } from "./Icons";
+import { GithubIcon, MenuIcon } from "./Icons";
+import Link from "next/link";
 
 function Sidebar() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -163,9 +164,9 @@ function Sidebar() {
               )}
             </>
           ) : (
-            <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full  sm:translate-x-0 mt-24 ml-8">
+            <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 mt-24 ml-8 ">
               {/* Sidebar Content */}
-              <div className="px-4 py-3">
+              <div className="px-4 py-3 justify-between h-full">
                 <h2 className="mb-2 text-lg font-semibold">Categories</h2>
                 <ul className="space-y-2">
                   {categories.map((category) => (
@@ -208,6 +209,11 @@ function Sidebar() {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-5">
+                  <Link href="https://github.com/yaffalhakim1/simple-ecommerce">
+                    <GithubIcon width="24px" height="24px" />
+                  </Link>
+                </div>
               </div>
             </aside>
           )}

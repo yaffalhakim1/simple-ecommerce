@@ -48,8 +48,4 @@ export const useUserStore = create<UserStore>((set) => ({
       console.error("Sign-in failed:", error);
     }
   },
-
-  checkToken: async () => {
-    localStorage.getItem("token");
-  },
 }));

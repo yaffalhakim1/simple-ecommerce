@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={jakarta.className}>
-        {/* <Header /> */}
+        <Header />
         {children}
       </body>
     </html>

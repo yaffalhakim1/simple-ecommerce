@@ -1,46 +1,78 @@
-"use client";
-
 import Image from "next/image";
-import React from "react";
+import useCartStore from "@/zustand/cartStore";
 import { XIcon } from "./Icons";
 
-function CartItem() {
+type CartItemProps = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  removeFromCart: (id: number) => void;
+};
+
+function CartItem({ id, title, image, price, removeFromCart }: CartItemProps) {
+  const cartItems = useCartStore((state) => state.cartItems);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeItem = useCartStore((state) => state.removeFromCart);
+
+  const cartItem = cartItems.find((item) => item.product.id === id);
+
+  const handleQuantityChange = (newQuantity: number) => {
+    updateQuantity(id, newQuantity);
+  };
+  const handleRemoveItem = () => {
+    removeFromCart(id);
+  };
+
+  const totalPrice = (cartItem?.quantity || 0) * price;
+
   return (
     <div className="justify-between rounded-lg bg-white my-4 sm:flex sm:justify-start">
-      <Image
-        src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-        alt="product-image"
-        className="w-full rounded-lg sm:w-40"
-        width={200}
-        height={40}
-      />
+      <div className="">
+        <Image
+          src={image}
+          alt="product-image"
+          className="rounded-lg sm:w-40"
+          width={80}
+          height={80}
+        />
+      </div>
+
       <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between ">
         <div className="mt-5 sm:mt-0 space-y-2">
-          <h2 className="text-lg font-bold text-gray-900">Nike Air Max 2019</h2>
-          <p className="mt-1 text-xs text-gray-700">36EU - 4US</p>
+          <h2 className="text-lg font-bold text-gray-900">{title}</h2>
           <div className="flex items-center text-center border-gray-100">
-            <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
-              {" "}
-              -{" "}
+            <span
+              className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
+              onClick={() => handleQuantityChange(cartItem!.quantity - 1 || 0)}
+            >
+              -
             </span>
             <input
-              className="h-8 w-8 borderbg-white text-center text-xs outline-none"
+              className="h-8 w-8 border bg-white text-center text-xs outline-none"
               type="number"
               placeholder="2"
-              // value="2"
+              value={cartItem?.quantity}
               min="1"
+              onChange={(e) =>
+                handleQuantityChange(parseInt(e.target.value, 10))
+              }
             />
-            <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
-              {" "}
-              +{" "}
+            <span
+              className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+              onClick={() => handleQuantityChange(cartItem!.quantity + 1 || 1)}
+            >
+              +
             </span>
           </div>
           <div className="flex items-center space-x-4">
-            <p className="text-sm">259.000 ₭</p>
-            <XIcon />
+            <p className="text-sm">${totalPrice}</p>
+            <button onClick={handleRemoveItem}>
+              <XIcon />
+            </button>
           </div>
         </div>
-        {/* <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"></div> */}
       </div>
     </div>
   );

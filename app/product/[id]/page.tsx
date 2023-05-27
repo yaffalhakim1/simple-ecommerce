@@ -15,13 +15,6 @@ type Props = {
 };
 
 async function ProductDetail({ params: { id } }: Props) {
-  const router = useRouter();
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const handleAddToCart = () => {
-    setIsCartOpen(true);
-  };
-
   try {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     const product: Product = await res.json();
@@ -70,25 +63,19 @@ async function ProductDetail({ params: { id } }: Props) {
                 {product?.description}
               </p>
             </div>
-            <CartSidebar />
-            {/* <div className="text-sm">
-              <button
-                onClick={handleAddToCart}
-                className="button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-5"
-              >
-                Add to cart
-              </button>
-
-              {isCartOpen && (
-                <>
-                  <CartSidebar />
-                  <div
-                    className="fixed inset-0 bg-black opacity-50"
-                    onClick={() => setIsCartOpen(false)}
-                  ></div>
-                </>
-              )}
-            </div> */}
+            <CartSidebar
+              buttonVariant={"text"}
+              id={undefined}
+              product={{
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                image: product.image,
+                description: product.description,
+                category: product.category,
+                rating: product.rating,
+              }}
+            />
           </div>
         </div>
       </div>

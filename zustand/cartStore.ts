@@ -1,45 +1,79 @@
 import { create } from "zustand";
 
-import axios from "axios";
-import { BASE_URL } from "@/lib/shared";
-
-// Define the type for your cart item
-type CartItem = {
-  id: string;
-  name: string;
+type Product = {
+  id: number;
+  title: string;
+  description: string;
   price: number;
+  image: string;
+  category: string;
+};
+
+type CartItem = {
+  product: Product;
   quantity: number;
 };
 
-// Define the type for your cart store
 type CartStore = {
   cartItems: CartItem[];
-  addItem: (item: CartItem) => void;
-  removeItem: (itemId: string) => void;
-  clearCart: () => void;
+  addToCart: (product: Product) => void;
+  removeFromCart: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
+  priceTotal: () => number;
 };
 
-// Create the cart store
-export const useCartStore = create<CartStore>((set) => ({
-  cartItems: [],
-  addItem: async (item: any) => {
-    try {
-      // Make API request to add item to cart
-      axios.post(`${BASE_URL}/carts/addCart`, item, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      // Update the local state
-      set((state) => ({ cartItems: [...state.cartItems, item] }));
-    } catch (error) {
-      console.error("Failed to add item to cart:", error);
-    }
+const useCartStore = create<CartStore>((set) => ({
+  cartItems: localStorage.getItem("cartItems")
+    ? JSON.parse(localStorage.getItem("cartItems")!)
+    : [],
+
+  addToCart: (product: Product) => {
+    set((state) => {
+      const existingItem = state.cartItems.find(
+        (item) => item.product.id === product.id
+      );
+      if (existingItem) {
+        const updatedItem = {
+          ...existingItem,
+          quantity: existingItem.quantity + 1,
+        };
+        return {
+          cartItems: state.cartItems.map((item) =>
+            item.product.id === product.id ? updatedItem : item
+          ),
+        };
+      } else {
+        const newItem = { product, quantity: 1 };
+        return { cartItems: [...state.cartItems, newItem] };
+      }
+    });
   },
-  removeItem: (itemId) =>
+
+  removeFromCart: (id) =>
     set((state) => ({
-      cartItems: state.cartItems.filter((item) => item.id !== itemId),
+      cartItems: state.cartItems.filter((item) => item.product.id !== id),
     })),
-  clearCart: () => set({ cartItems: [] }),
+
+  updateQuantity: (productId: number, quantity: number) => {
+    set((state) => ({
+      cartItems: state.cartItems.map((item) =>
+        item.product.id === productId ? { ...item, quantity } : item
+      ),
+    }));
+  },
+
+  priceTotal: () => {
+    let total = 0;
+    useCartStore.getState().cartItems.forEach((item) => {
+      total += item.product.price * item.quantity;
+    });
+
+    return total;
+  },
 }));
+
+useCartStore.subscribe((state) => {
+  localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+});
+
+export default useCartStore;

@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import CartItem from "./CartItem";
 import { CartIcon, XIcon } from "./Icons";
 import useCartStore from "@/zustand/cartStore";
-import { remove } from "js-cookie";
+// import { remove } from "js-cookie";
 import Button from "./Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,9 +17,6 @@ interface CartSidebarProps {
   product: Product;
 }
 const CartSidebar = ({
-  isOpened,
-  onClose,
-  openCart,
   buttonVariant,
 
   product,
@@ -91,11 +88,11 @@ const CartSidebar = ({
             leaveTo="translate-x-full"
           >
             <div className="fixed inset-0 ">
-              <Dialog.Panel className="fixed top-0 right-0 z-40 md:w-5/12  h-full max-w-md bg-white">
+              <Dialog.Panel className="fixed top-0 right-0 z-40 h-full max-w-md bg-white md:w-5/12">
                 {/* Sidebar Content */}
-                <div className="flex flex-col h-full justify-between">
-                  <div className="flex px-4 justify-between">
-                    <p className="text-lg font-semibold mt-3">Your Cart</p>
+                <div className="flex flex-col justify-between h-full">
+                  <div className="flex justify-between px-4">
+                    <p className="mt-3 text-lg font-semibold">Your Cart</p>
                     <button
                       className="mt-3"
                       onClick={closeSidebar}
@@ -106,7 +103,7 @@ const CartSidebar = ({
                   </div>
                   {cartItems.length > 0 ? (
                     <div className="flex flex-col justify-between mx-auto overflow-hidden">
-                      <div className="px-4 h-screen overflow-y-scroll">
+                      <div className="h-screen px-4 overflow-y-scroll">
                         {cartItems.map((product) => (
                           <CartItem
                             key={product.product.id}
@@ -119,21 +116,21 @@ const CartSidebar = ({
                           />
                         ))}
                       </div>
-                      <div className="border-t border-gray-400 border-spacing-x-2 pt-1">
+                      <div className="pt-1 border-t border-gray-400 border-spacing-x-2">
                         <div className="flex flex-col justify-between my-2">
-                          <div className="mb-2 flex items-center justify-between px-4">
+                          <div className="flex items-center justify-between px-4 mb-2">
                             <p>Subtotal</p>
                             <p>{computeTotalPrice()}</p>
                           </div>
-                          <div className="mb-2 flex items-center justify-between px-4">
+                          <div className="flex items-center justify-between px-4 mb-2">
                             <p>Taxes</p>
                             <p>$5.00</p>
                           </div>
-                          <div className="mb-2 flex items-center justify-between px-4">
+                          <div className="flex items-center justify-between px-4 mb-2">
                             <p>Shipping</p>
                             <p>$5.00</p>
                           </div>
-                          <div className="border-t border-gray-400 pt-1"></div>
+                          <div className="pt-1 border-t border-gray-400"></div>
                           <div className="flex items-center justify-between px-4">
                             <p className="font-semibold">Total</p>
                             <p className="font-semibold">
@@ -143,7 +140,7 @@ const CartSidebar = ({
                           {/* <Link href="/coming"> */}
                           <button
                             onClick={() => router.push("/coming")}
-                            className="button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-blue-700 hover:text-white mt-2 leading-relaxed mx-4"
+                            className="mx-4 mt-2 leading-relaxed text-white bg-blue-600 border-transparent button hover:border-blue-600 hover:bg-blue-700 hover:text-white"
                           >
                             PROCEED TO PAYMENT
                           </button>
@@ -153,7 +150,7 @@ const CartSidebar = ({
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full">
-                      <p className="text-gray-500 text-center mb-4">
+                      <p className="mb-4 text-center text-gray-500">
                         Your Cart is empty
                       </p>
                       <Button

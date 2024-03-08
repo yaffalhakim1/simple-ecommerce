@@ -23,7 +23,7 @@ You can try the live demo of the application [here](https://simple-ecommerce-app
 
 ### Installation
 
-- clone this repository `git clone https://github.com/yaffalhakim1/anonymous-website-message`
-- go to directory project  `cd anonymous-website-message`
-- run `npm install`
-- run `npm run dev`
+- clone this repository
+- go to directory project
+- run `pnpm install`
+- run `pnpm run dev`
